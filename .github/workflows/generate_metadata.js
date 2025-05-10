@@ -13,7 +13,7 @@ const config = {
 
 // Autenticação
 const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN
+  auth: process.env.PAGES_GITHUB_TOKEN
 });
 
 async function getFileMetadata() {
