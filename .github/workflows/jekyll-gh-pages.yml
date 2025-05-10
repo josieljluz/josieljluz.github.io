@@ -32,7 +32,7 @@ jobs:
       - name: Generate files metadata
         run: node generate_metadata.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAGES_GITHUB_TOKEN }}
 
       - name: Commit metadata file
         run: |
