@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Arquivos para Download</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>ARQUIVOS PARA DOWNLOAD</h1>
+  
+  <div class="search-container">
+    <input type="text" id="search" placeholder="Pesquisar Arquivos..." aria-label="Pesquisar Arquivos">
+  </div>
+  
+  <div class="controls">
+    <div class="sort-container">
+      <label for="sort">Ordenar por:</label>
+      <select id="sort" aria-label="Ordenar Arquivos">
+        <option value="name">Nome (A-Z)</option>
+        <option value="nameDesc">Nome (Z-A)</option>
+        <option value="date">Data (Mais recentes)</option>
+        <option value="dateOldest">Data (Mais antigo)</option>
+        <option value="size">Tamanho (Maior)</option>
+        <option value="sizeSmallest">Tamanho (Menor)</option>
+        <option value="FileType">Tipo (Crescente)</option>
+        <option value="FileTypeDesc">Tipo (Decrescente)</option>
+      </select>
+    </div>
+    <div id="pagination-controls" class="pagination-controls"></div>
+  </div>
+  
+  <ul id="file-list">
+    <li class="loading">Carregando Arquivos...</li>
+  </ul>
+
+  <script src="script.js"></script>
+</body>
+</html>
