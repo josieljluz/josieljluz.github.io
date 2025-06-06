@@ -368,3 +368,54 @@ footer {
 .dark footer {
   border-top-color: #444;
 }
+/* REDES SOCIAIS */
+/* Social Media Icons */
+.social-media {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.whatsapp { background-color: #25D366; }
+.facebook { background-color: #1877F2; }
+.instagram { 
+  background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
+}
+.twitter { background-color: #1DA1F2; }
+.telegram { background-color: #0088CC; }
+.threads { background-color: #000000; }
+
+.dark .social-icon {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 480px) {
+  .social-media {
+    gap: 10px;
+  }
+  .social-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+}
