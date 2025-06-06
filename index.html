@@ -4,7 +4,422 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Josiel Jefferson - Downloads</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --primary-color: #4285f4;
+      --background-color: #ffffff;
+      --text-color: #333333;
+      --card-bg: #f8f9fa;
+      --border-color: #e0e0e0;
+      --hover-color: #f1f1f1;
+    }
+
+    .dark-mode {
+      --primary-color: #8ab4f8;
+      --background-color: #121212;
+      --text-color: #e0e0e0;
+      --card-bg: #1e1e1e;
+      --border-color: #333333;
+      --hover-color: #2a2a2a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #666;
+    }
+
+    .dark-mode .subtitle {
+      color: #aaa;
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      gap: 15px;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      flex: 1;
+    }
+
+    .dark-mode .stat-card {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .dark-mode .stat-label {
+      color: #aaa;
+    }
+
+    .search-container {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #search {
+      width: 100%;
+      max-width: 600px;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 25px;
+      font-size: 1rem;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+    }
+
+    #search:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      justify-content: space-between;
+    }
+
+    .sort-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .dark-mode label {
+      color: #aaa;
+    }
+
+    select {
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      cursor: pointer;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(66, 133, 244, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #file-list {
+      list-style: none;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+    }
+
+    .file-item:last-child {
+      border-bottom: none;
+    }
+
+    .file-item:hover {
+      background-color: var(--hover-color);
+    }
+
+    .file-icon {
+      margin-right: 15px;
+      font-size: 1.5rem;
+      color: #666;
+    }
+
+    .dark-mode .file-icon {
+      color: #aaa;
+    }
+
+    .file-info {
+      flex: 1;
+    }
+
+    .file-name {
+      font-weight: 500;
+      margin-bottom: 5px;
+      word-break: break-word;
+    }
+
+    .file-details {
+      display: flex;
+      font-size: 0.85rem;
+      color: #666;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .dark-mode .file-details {
+      color: #aaa;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .download-btn {
+      padding: 8px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .download-btn:hover {
+      opacity: 0.9;
+    }
+
+    .pagination-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .pagination-controls {
+      display: flex;
+      gap: 5px;
+    }
+
+    .pagination-btn {
+      padding: 8px 12px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .pagination-btn:hover {
+      background-color: var(--hover-color);
+    }
+
+    .pagination-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .pagination-info {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .dark-mode .pagination-info {
+      color: #aaa;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      border-top: 1px solid var(--border-color);
+      color: #666;
+    }
+
+    .dark-mode footer {
+      color: #aaa;
+    }
+
+    footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .build-info {
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-link {
+      color: var(--text-color);
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    .social-link:hover {
+      color: var(--primary-color);
+    }
+
+    .whatsapp:hover {
+      color: #25D366;
+    }
+
+    .telegram:hover {
+      color: #0088cc;
+    }
+
+    .facebook:hover {
+      color: #1877f2;
+    }
+
+    .instagram:hover {
+      color: #E1306C;
+    }
+
+    .twitter:hover {
+      color: #1DA1F2;
+    }
+
+    .threads:hover {
+      color: #000000;
+    }
+
+    .dark-mode .threads:hover {
+      color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+      }
+
+      .sort-container {
+        width: 100%;
+      }
+
+      select {
+        width: 100%;
+      }
+
+      .stat-card {
+        min-width: 120px;
+      }
+
+      .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .file-actions {
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      .download-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .pagination-container {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -79,9 +494,346 @@
 
   <footer>
     <p>Projeto mantido por <a href="https://github.com/josieljluz" target="_blank">Josiel Jefferson</a></p>
+    
+    <div class="social-links">
+      <a href="https://wa.me/+5589981073340" target="_blank" class="social-link whatsapp" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="https://t.me/ElectronSpeedX" target="_blank" class="social-link telegram" aria-label="Telegram">
+        <i class="fab fa-telegram"></i>
+      </a>
+      <a href="https://facebook.com/josieljeff" target="_blank" class="social-link facebook" aria-label="Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+      <a href="https://instagram.com/josieljeff" target="_blank" class="social-link instagram" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://twitter.com/josieljeff" target="_blank" class="social-link twitter" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://threads.net/josieljeff" target="_blank" class="social-link threads" aria-label="Threads">
+        <i class="fab fa-threads"></i>
+      </a>
+    </div>
+    
     <p class="build-info">Última atualização: <span id="build-date"></span></p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Variáveis globais
+      let allFiles = [];
+      let currentPage = 1;
+      let itemsPerPage = 20;
+      let currentSort = 'name';
+      let currentSearch = '';
+      
+      // Elementos do DOM
+      const fileListElement = document.getElementById('file-list');
+      const loadingElement = document.getElementById('loading');
+      const paginationControls = document.getElementById('pagination-controls');
+      const paginationInfo = document.getElementById('pagination-info');
+      const totalFilesElement = document.getElementById('total-files');
+      const totalSizeElement = document.getElementById('total-size');
+      const lastUpdateElement = document.getElementById('last-update');
+      const buildDateElement = document.getElementById('build-date');
+      const searchInput = document.getElementById('search');
+      const sortSelect = document.getElementById('sort');
+      const itemsPerPageSelect = document.getElementById('items-per-page');
+      const themeSelect = document.getElementById('theme');
+      
+      // Inicialização
+      applySystemTheme();
+      setBuildDate();
+      fetchFiles();
+      
+      // Event listeners
+      searchInput.addEventListener('input', function() {
+        currentSearch = this.value.toLowerCase();
+        currentPage = 1;
+        renderFileList();
+      });
+      
+      sortSelect.addEventListener('change', function() {
+        currentSort = this.value;
+        currentPage = 1;
+        renderFileList();
+      });
+      
+      itemsPerPageSelect.addEventListener('change', function() {
+        itemsPerPage = parseInt(this.value);
+        currentPage = 1;
+        renderFileList();
+      });
+      
+      themeSelect.addEventListener('change', function() {
+        if (this.value === 'system') {
+          applySystemTheme();
+        } else {
+          document.body.classList.toggle('dark-mode', this.value === 'dark');
+          localStorage.setItem('theme', this.value);
+        }
+      });
+      
+      // Funções
+      function applySystemTheme() {
+        if (localStorage.getItem('theme') === 'light' || localStorage.getItem('theme') === 'dark') {
+          document.body.classList.toggle('dark-mode', localStorage.getItem('theme') === 'dark');
+          themeSelect.value = localStorage.getItem('theme');
+        } else {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.body.classList.toggle('dark-mode', prefersDark);
+          themeSelect.value = 'system';
+        }
+      }
+      
+      function setBuildDate() {
+        const now = new Date();
+        buildDateElement.textContent = now.toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+      
+      function fetchFiles() {
+        // Simulação de carregamento de arquivos
+        // Na implementação real, você faria uma requisição para seu backend
+        setTimeout(() => {
+          // Exemplo de dados - substitua por sua implementação real
+          allFiles = [
+            { name: 'Documento.pdf', size: 2.5, type: 'pdf', date: '2023-05-15' },
+            { name: 'Planilha.xlsx', size: 1.8, type: 'xlsx', date: '2023-06-20' },
+            { name: 'Apresentação.pptx', size: 5.2, type: 'pptx', date: '2023-04-10' },
+            { name: 'Imagem.jpg', size: 3.1, type: 'jpg', date: '2023-07-05' },
+            { name: 'Arquivo.zip', size: 10.7, type: 'zip', date: '2023-03-12' },
+            { name: 'Código.js', size: 0.5, type: 'js', date: '2023-08-01' },
+            { name: 'Estilo.css', size: 0.3, type: 'css', date: '2023-08-02' },
+            { name: 'Documento2.pdf', size: 1.2, type: 'pdf', date: '2023-05-18' },
+            { name: 'Planilha2.xlsx', size: 2.1, type: 'xlsx', date: '2023-06-22' },
+            { name: 'Apresentação2.pptx', size: 4.5, type: 'pptx', date: '2023-04-15' },
+            { name: 'Imagem2.png', size: 2.8, type: 'png', date: '2023-07-08' },
+            { name: 'Arquivo2.rar', size: 8.3, type: 'rar', date: '2023-03-15' },
+            { name: 'Código2.js', size: 0.7, type: 'js', date: '2023-08-03' },
+            { name: 'Estilo2.css', size: 0.4, type: 'css', date: '2023-08-04' },
+            { name: 'Documento3.pdf', size: 3.0, type: 'pdf', date: '2023-05-20' },
+            { name: 'Planilha3.xlsx', size: 1.5, type: 'xlsx', date: '2023-06-25' },
+            { name: 'Apresentação3.pptx', size: 6.0, type: 'pptx', date: '2023-04-20' },
+            { name: 'Imagem3.jpeg', size: 4.2, type: 'jpeg', date: '2023-07-10' },
+            { name: 'Arquivo3.zip', size: 12.0, type: 'zip', date: '2023-03-18' },
+            { name: 'Código3.js', size: 0.6, type: 'js', date: '2023-08-05' },
+            { name: 'Estilo3.css', size: 0.5, type: 'css', date: '2023-08-06' },
+            { name: 'Documento4.pdf', size: 2.8, type: 'pdf', date: '2023-05-25' },
+            { name: 'Planilha4.xlsx', size: 2.0, type: 'xlsx', date: '2023-06-28' },
+            { name: 'Apresentação4.pptx', size: 5.5, type: 'pptx', date: '2023-04-25' },
+            { name: 'Imagem4.gif', size: 1.5, type: 'gif', date: '2023-07-12' },
+            { name: 'Arquivo4.7z', size: 9.5, type: '7z', date: '2023-03-20' },
+            { name: 'Código4.js', size: 0.8, type: 'js', date: '2023-08-07' },
+            { name: 'Estilo4.css', size: 0.6, type: 'css', date: '2023-08-08' }
+          ];
+          
+          // Atualizar estatísticas
+          updateStats();
+          
+          // Renderizar lista
+          loadingElement.style.display = 'none';
+          renderFileList();
+        }, 1500);
+      }
+      
+      function updateStats() {
+        totalFilesElement.textContent = allFiles.length;
+        
+        const totalSize = allFiles.reduce((sum, file) => sum + file.size, 0);
+        totalSizeElement.textContent = totalSize.toFixed(1) + ' MB';
+        
+        if (allFiles.length > 0) {
+          const dates = allFiles.map(file => new Date(file.date));
+          const lastDate = new Date(Math.max(...dates));
+          lastUpdateElement.textContent = lastDate.toLocaleDateString('pt-BR');
+        }
+      }
+      
+      function renderFileList() {
+        // Filtrar arquivos
+        let filteredFiles = allFiles.filter(file => 
+          file.name.toLowerCase().includes(currentSearch)
+        );
+        
+        // Ordenar arquivos
+        filteredFiles = sortFiles(filteredFiles, currentSort);
+        
+        // Paginação
+        const totalPages = Math.ceil(filteredFiles.length / itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const paginatedFiles = filteredFiles.slice(startIndex, startIndex + itemsPerPage);
+        
+        // Renderizar arquivos
+        fileListElement.innerHTML = '';
+        paginatedFiles.forEach(file => {
+          const fileItem = document.createElement('li');
+          fileItem.className = 'file-item';
+          
+          const fileIcon = getFileIcon(file.type);
+          
+          fileItem.innerHTML = `
+            <div class="file-icon">${fileIcon}</div>
+            <div class="file-info">
+              <div class="file-name">${file.name}</div>
+              <div class="file-details">
+                <span>Tipo: ${file.type.toUpperCase()}</span>
+                <span>Tamanho: ${file.size.toFixed(1)} MB</span>
+                <span>Data: ${new Date(file.date).toLocaleDateString('pt-BR')}</span>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button class="download-btn">
+                <i class="fas fa-download"></i> Download
+              </button>
+            </div>
+          `;
+          
+          fileListElement.appendChild(fileItem);
+        });
+        
+        // Renderizar controles de paginação
+        renderPaginationControls(filteredFiles.length, totalPages);
+      }
+      
+      function sortFiles(files, sortType) {
+        return [...files].sort((a, b) => {
+          switch (sortType) {
+            case 'name':
+              return a.name.localeCompare(b.name);
+            case 'nameDesc':
+              return b.name.localeCompare(a.name);
+            case 'date':
+              return new Date(b.date) - new Date(a.date);
+            case 'dateOldest':
+              return new Date(a.date) - new Date(b.date);
+            case 'size':
+              return b.size - a.size;
+            case 'sizeSmallest':
+              return a.size - b.size;
+            case 'type':
+              return a.type.localeCompare(b.type);
+            case 'typeDesc':
+              return b.type.localeCompare(a.type);
+            default:
+              return a.name.localeCompare(b.name);
+          }
+        });
+      }
+      
+      function getFileIcon(fileType) {
+        const icons = {
+          pdf: '<i class="fas fa-file-pdf"></i>',
+          xlsx: '<i class="fas fa-file-excel"></i>',
+          pptx: '<i class="fas fa-file-powerpoint"></i>',
+          jpg: '<i class="fas fa-file-image"></i>',
+          png: '<i class="fas fa-file-image"></i>',
+          jpeg: '<i class="fas fa-file-image"></i>',
+          gif: '<i class="fas fa-file-image"></i>',
+          zip: '<i class="fas fa-file-archive"></i>',
+          rar: '<i class="fas fa-file-archive"></i>',
+          '7z': '<i class="fas fa-file-archive"></i>',
+          js: '<i class="fas fa-file-code"></i>',
+          css: '<i class="fas fa-file-code"></i>',
+          default: '<i class="fas fa-file"></i>'
+        };
+        
+        return icons[fileType] || icons.default;
+      }
+      
+      function renderPaginationControls(totalItems, totalPages) {
+        paginationControls.innerHTML = '';
+        paginationInfo.textContent = `Mostrando ${Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}-${Math.min(currentPage * itemsPerPage, totalItems)} de ${totalItems} itens`;
+        
+        // Botão Anterior
+        const prevButton = document.createElement('button');
+        prevButton.className = 'pagination-btn';
+        prevButton.textContent = 'Anterior';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderFileList();
+          }
+        });
+        paginationControls.appendChild(prevButton);
+        
+        // Números de página
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        if (startPage > 1) {
+          const firstPageButton = document.createElement('button');
+          firstPageButton.className = 'pagination-btn';
+          firstPageButton.textContent = '1';
+          firstPageButton.addEventListener('click', () => {
+            currentPage = 1;
+            renderFileList();
+          });
+          paginationControls.appendChild(firstPageButton);
+          
+          if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.style.padding = '8px 12px';
+            paginationControls.appendChild(ellipsis);
+          }
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+          const pageButton = document.createElement('button');
+          pageButton.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+          pageButton.textContent = i;
+          pageButton.addEventListener('click', () => {
+            currentPage = i;
+            renderFileList();
+          });
+          paginationControls.appendChild(pageButton);
+        }
+        
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.style.padding = '8px 12px';
+            paginationControls.appendChild(ellipsis);
+          }
+          
+          const lastPageButton = document.createElement('button');
+          lastPageButton.className = 'pagination-btn';
+          lastPageButton.textContent = totalPages;
+          lastPageButton.addEventListener('click', () => {
+            currentPage = totalPages;
+            renderFileList();
+          });
+          paginationControls.appendChild(lastPageButton);
+        }
+        
+        // Botão Próximo
+        const nextButton = document.createElement('button');
+        nextButton.className = 'pagination-btn';
+        nextButton.textContent = 'Próximo';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderFileList();
+          }
+        });
+        paginationControls.appendChild(nextButton);
+      }
+    });
+  </script>
 </body>
 </html>
