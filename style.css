@@ -7,22 +7,9 @@
   --muted-color: #555;
   --error-color: #e74c3c;
   --success-color: #2ecc71;
-  --border-color: #ddd;
   --border-radius: 8px;
   --box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   --transition: all 0.3s ease;
-  --hover-color: #f0f0f0;
-}
-
-.dark-mode {
-  --primary-color: #3498db;
-  --secondary-color: #ecf0f1;
-  --background-color: #121212;
-  --card-color: #1e1e1e;
-  --text-color: #e0e0e0;
-  --muted-color: #b0b0b0;
-  --border-color: #444;
-  --hover-color: #2a2a2a;
 }
 
 body {
@@ -33,15 +20,11 @@ body {
   margin: 0 auto;
   color: var(--text-color);
   line-height: 1.6;
-  transition: var(--transition);
 }
 
-/* Header styles */
 header {
   text-align: center;
   margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
 }
 
 h1 {
@@ -55,7 +38,6 @@ h1 {
   font-size: 1.1em;
 }
 
-/* Loading state */
 .loading {
   text-align: center;
   padding: 30px;
@@ -80,7 +62,6 @@ h1 {
   100% { transform: rotate(360deg); }
 }
 
-/* Error message */
 .error-message {
   color: var(--error-color);
   background: rgba(231, 76, 60, 0.1);
@@ -103,7 +84,6 @@ h1 {
   background: #c0392b;
 }
 
-/* Stats container */
 .stats-container {
   display: flex;
   justify-content: space-between;
@@ -134,7 +114,6 @@ h1 {
   color: var(--muted-color);
 }
 
-/* Search and controls */
 .search-container {
   margin-bottom: 25px;
 }
@@ -142,12 +121,10 @@ h1 {
 #search {
   width: 100%;
   padding: 12px 20px;
-  border: 2px solid var(--border-color);
+  border: 2px solid #ddd;
   border-radius: 30px;
   font-size: 16px;
   transition: border-color 0.3s;
-  background: var(--card-color);
-  color: var(--text-color);
 }
 
 #search:focus {
@@ -173,9 +150,8 @@ h1 {
 #sort, #items-per-page {
   padding: 10px 15px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--border-color);
-  background: var(--card-color);
-  color: var(--text-color);
+  border: 1px solid #ddd;
+  background: white;
   font-size: 14px;
   cursor: pointer;
 }
@@ -185,7 +161,6 @@ h1 {
   border-color: var(--primary-color);
 }
 
-/* File list */
 ul {
   list-style: none;
   padding: 0;
@@ -229,7 +204,6 @@ ul {
   font-size: 24px;
   width: 30px;
   text-align: center;
-  color: var(--muted-color);
 }
 
 .file-name {
@@ -243,7 +217,7 @@ ul {
   margin-top: 12px;
   color: var(--muted-color);
   font-size: 0.9em;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid #eee;
   padding-top: 12px;
 }
 
@@ -253,7 +227,6 @@ ul {
   gap: 8px;
 }
 
-/* Pagination */
 .pagination-container {
   display: flex;
   flex-direction: column;
@@ -271,16 +244,15 @@ ul {
 
 .pagination-button {
   padding: 8px 15px;
-  border: 1px solid var(--border-color);
-  background: var(--card-color);
-  color: var(--text-color);
+  border: 1px solid #ddd;
+  background: white;
   border-radius: var(--border-radius);
   cursor: pointer;
   transition: var(--transition);
 }
 
 .pagination-button:hover:not(.active):not(:disabled) {
-  background: var(--hover-color);
+  background: #f0f0f0;
 }
 
 .pagination-button.active {
@@ -305,12 +277,11 @@ ul {
   padding: 0 10px;
 }
 
-/* Footer */
 footer {
   text-align: center;
   margin-top: 40px;
   padding-top: 20px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid #eee;
   color: var(--muted-color);
 }
 
@@ -318,6 +289,7 @@ footer {
   font-size: 0.9em;
   margin-top: 10px;
 }
+/* 👇REDES SOCIAIS👇 */
 
 /* Social links */
 .social-links {
@@ -344,7 +316,8 @@ footer {
 .twitter:hover { color: #1DA1F2; }
 .threads:hover { color: var(--text-color); }
 
-/* Responsive design */
+/* 👆REDES SOCIAIS👆 */
+
 @media (max-width: 768px) {
   body {
     padding: 15px;
@@ -396,3 +369,31 @@ footer {
 .file-item:nth-child(8) { animation-delay: 0.8s; }
 .file-item:nth-child(9) { animation-delay: 0.9s; }
 .file-item:nth-child(10) { animation-delay: 1.0s; }
+
+/* Dark mode via classe .dark */
+.dark {
+  --primary-color: #3498db;
+  --secondary-color: #ecf0f1;
+  --background-color: #121212;
+  --card-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --muted-color: #b0b0b0;
+}
+
+.dark #search,
+.dark #sort,
+.dark #items-per-page,
+.dark .pagination-button {
+  background: #2d2d2d;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+.dark .file-details {
+  border-top-color: #444;
+}
+
+.dark footer {
+  border-top-color: #444;
+}
+
