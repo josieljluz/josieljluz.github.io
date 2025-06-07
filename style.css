@@ -346,7 +346,14 @@ footer {
 .facebook:hover { color: #1877f2; }
 .instagram:hover { color: #E1306C; }
 .twitter:hover { color: #1DA1F2; }
-.threads:hover { color: var(--text-color); }
+.x:hover{ color: #FC6D26; background-color: rgba(252, 109, 38, 0.1); }
+.threads { color: #D44638; background-color: rgba(212, 70, 56, 0.1); }
+.tiktok:hover { color: #000000; background-color: rgba(0, 0, 0, 0.1); }
+.linkedin:hover { color: #0077B5; background-color: rgba(0, 119, 181, 0.1); }
+.kwai:hover { color: #FF6600; background-color: rgba(255, 102, 0, 0.1); }
+.email:hover { color: #D44638; background-color: rgba(212, 70, 56, 0.1); }
+.github:hover { color: #181717; background-color: rgba(24, 23, 23, 0.1); }
+.gitlab:hover { color: #FC6D26; background-color: rgba(252, 109, 38, 0.1); }
 
 /* 👆 REDES SOCIAIS 👆 */
 
