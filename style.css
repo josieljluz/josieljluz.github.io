@@ -289,7 +289,29 @@ footer {
   font-size: 0.9em;
   margin-top: 10px;
 }
-/* 👇REDES SOCIAIS👇 */
+
+/* 👇 BOTÃO DOWNLOAD 👇 */
+.download-btn {
+  padding: 8px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.download-btn:hover {
+  opacity: 0.9;
+}
+/* 👆 BOTÃO DOWNLOAD 👆 */
+/* ##################### */
+/* 👇 REDES SOCIAIS 👇 */
 
 /* Social links */
 .social-links {
@@ -316,7 +338,7 @@ footer {
 .twitter:hover { color: #1DA1F2; }
 .threads:hover { color: var(--text-color); }
 
-/* 👆REDES SOCIAIS👆 */
+/* 👆 REDES SOCIAIS 👆 */
 
 @media (max-width: 768px) {
   body {
@@ -339,6 +361,13 @@ footer {
   #sort, #items-per-page {
     width: 100%;
   }
+
+/* 👇 BOTÃO DOWNLOAD 👇 */
+  .download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+/* 👆 BOTÃO DOWNLOAD 👆 */
 
   .pagination-controls {
     width: 100%;

@@ -230,14 +230,21 @@ function renderFiles() {
   // Renderizar
   fileList.innerHTML = paginatedFiles.map(file => `
     <li class="file-item">
-      <a href="${file.download_url}" target="_blank" rel="noopener noreferrer" class="file-link">
-        <span class="file-icon">${getFileIcon(file.name)}</span>
-        <span class="file-name">${file.name}</span>
-      </a>
-      <div class="file-details">
-        <span class="file-size">📏 ${formatBytes(file.size)}</span>
-        <span class="file-date">🕒 ${formatDate(file.lastModified)}</span>
-        <span class="file-type">🗂️ ${file.file_type || 'desconhecido'}</span>
+      <div class="file-info">
+        <a href="${file.download_url}" target="_blank" rel="noopener noreferrer" class="file-link">
+          <span class="file-icon">${getFileIcon(file.name)}</span>
+          <span class="file-name">${file.name}</span>
+        </a>
+        <div class="file-details">
+          <span class="file-size">📏 ${formatBytes(file.size)}</span>
+          <span class="file-date">🕒 ${formatDate(file.lastModified)}</span>
+          <span class="file-type">🗂️ ${file.file_type || 'desconhecido'}</span>
+        </div>
+      </div>
+      <div class="file-actions">
+        <a href="${file.download_url}" class="download-btn" download>
+          <i class="fas fa-download"></i> Download
+        </a>
       </div>
     </li>
   `).join('');
