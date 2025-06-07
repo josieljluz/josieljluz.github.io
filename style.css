@@ -321,6 +321,25 @@ footer {
 .download-btn {
   display: inline-block;
 }
+
+/* 👇 BOTÃO DOWNLOAD 👇 */
+.file-actions {
+.file-item {
+  display: flex;
+  align-items: center; /* Alinha verticalmente */
+}
+
+.file-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto; /* Não cresce nem encolhe */
+  width: 150px; /* ou a largura desejada */
+}
+
+.file-info {
+  flex: 1; /* Ocupa o espaço restante */
+}
 /* 👆 BOTÃO DOWNLOAD 👆 */
 
 /* ##################### */
