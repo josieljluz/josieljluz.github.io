@@ -309,11 +309,7 @@ footer {
 .download-btn:hover {
   opacity: 0.9;
 }
-/* 👆 BOTÃO DOWNLOAD 👆 */
 
-/* ##################### */
-
-/* 👇 BOTÃO DOWNLOAD 👇 */
 .file-actions {
   text-align: center;
 }
@@ -439,4 +435,3 @@ footer {
 .dark footer {
   border-top-color: #444;
 }
-
