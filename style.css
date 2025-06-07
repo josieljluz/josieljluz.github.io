@@ -310,7 +310,21 @@ footer {
   opacity: 0.9;
 }
 /* 👆 BOTÃO DOWNLOAD 👆 */
+
 /* ##################### */
+
+/* 👇 BOTÃO DOWNLOAD 👇 */
+.file-actions {
+  text-align: center;
+}
+
+.download-btn {
+  display: inline-block;
+}
+/* 👆 BOTÃO DOWNLOAD 👆 */
+
+/* ##################### */
+
 /* 👇 REDES SOCIAIS 👇 */
 
 /* Social links */
