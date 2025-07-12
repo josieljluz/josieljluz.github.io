@@ -1,5 +1,5 @@
 # Nome do workflow que aparecerá na interface do GitHub Actions
-name: Deploy Jekyll with GitHub Pages
+name: X-Deploy Jekyll with GitHub Pages
 
 # Define os eventos que disparam a execução do workflow
 on:
