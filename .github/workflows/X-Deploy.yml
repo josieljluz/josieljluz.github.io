@@ -85,18 +85,19 @@ jobs:
       - name: Check active deployments
         id: check-deploy
         run: |
-          # Instala a CLI do GitHub
-          sudo apt-get -yq install jq
           echo "Verificando deploys ativos..."
           
           # Tenta verificar por 10 minutos (60 tentativas com intervalo de 10s)
           for i in {1..60}; do
-            DEPLOY_STATUS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            # Usa a API de Pages para verificar o status mais recente
+            RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/${{ github.repository }}/pages/deployments" | \
-              jq -r '.[] | select(.status != "completed") | .status')
+              "https://api.github.com/repos/${{ github.repository }}/pages")
             
-            if [ -z "$DEPLOY_STATUS" ]; then
+            # Extrai o status do deploy mais recente
+            DEPLOY_STATUS=$(echo "$RESPONSE" | jq -r '.status')
+            
+            if [[ "$DEPLOY_STATUS" == "built" || "$DEPLOY_STATUS" == "null" ]]; then
               echo "Nenhum deploy ativo encontrado. Prosseguindo..."
               echo "ready=true" >> $GITHUB_OUTPUT
               break
@@ -116,4 +117,3 @@ jobs:
         with:
           timeout: 600000  # 10 minutos
           token: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: false
