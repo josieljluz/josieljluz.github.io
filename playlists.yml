@@ -1,0 +1,124 @@
+#/.github/workflows/playlists.yml
+# Nome do workflow que aparecerá na interface do GitHub Actions
+name: playlists.m3u
+
+# Define os eventos que disparam a execução do workflow
+on:
+  # Agenda execuções automáticas (cron schedule)
+  schedule:
+    # Executa às 03:01 e 15:01 UTC (que equivale a 00:01 e 12:01 no horário de Brasília)
+    - cron: '1 3,15 * * *'
+  # Permite acionamento manual do workflow
+  workflow_dispatch:
+
+# Configura as permissões necessárias
+permissions:
+  # Permite escrever no repositório (para fazer push das alterações)
+  contents: write
+
+# Define os jobs (tarefas) que compõem o workflow
+jobs:
+  # Job principal: download e processamento das playlists
+  download:
+    # Executa em máquina com Ubuntu
+    runs-on: ubuntu-latest
+
+    # Passos sequenciais do job
+    steps:
+    # 1. Faz checkout do código do repositório
+    - name: Checkout do repositório
+      uses: actions/checkout@v4
+      with:
+        # Não mantém as credenciais (segurança)
+        persist-credentials: false
+        # Baixa todo o histórico de commits
+        fetch-depth: 0
+
+    # 2. Configura o ambiente Python
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        # Usa Python 3.8 especificamente
+        python-version: '3.8'
+
+    # 3. Configura cache para dependências pip (otimização)
+    - name: Cache de dependências pip
+      uses: actions/cache@v3
+      with:
+        # Caminho onde o pip armazena os pacotes
+        path: ~/.cache/pip
+        # Chave de cache baseada no OS e no requirements.txt
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        # Chaves alternativas para restaurar cache
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    # 4. Instala as dependências Python necessárias
+    - name: Instalar dependências
+      run: |
+        # Atualiza o pip para a versão mais recente
+        python -m pip install --upgrade pip
+        # Instala o pacote requests (para requisições HTTP)
+        pip install requests
+
+    # 5. Executa o script principal que baixa as playlists
+    - name: Executar script de playlists
+      run: python playlists.py
+
+    # 6. Adiciona timestamp nos arquivos baixados
+    - name: Adicionar timestamp nos arquivos
+      run: |
+        # Encontra todos arquivos .m3u e .xml.gz no diretório raiz
+        for file in $(find . -maxdepth 1 -type f -name "*.m3u" -o -name "*.xml.gz"); do
+          # Adiciona linha de comentário com data/hora da atualização
+          echo "# Atualizado em $(date -u '+%d-%m-%Y %H:%M:%S UTC')" >> "$file"
+        done
+
+    # 7. Verifica se houve mudanças nos arquivos
+    - name: Verificar mudanças no Git
+      id: git_status
+      run: |
+        # Verifica se há arquivos modificados/novos
+        if [[ -n "$(git status --porcelain .)" ]]; then
+          # Define variável de ambiente indicando que há mudanças
+          echo "changes=true" >> $GITHUB_ENV
+        else
+          # Define variável indicando que não há mudanças
+          echo "changes=false" >> $GITHUB_ENV
+        fi
+
+    # 8. Commita e envia as alterações se houver mudanças
+    - name: Commit e push se houver mudanças
+      # Executa apenas se houver mudanças (conditional step)
+      if: env.changes == 'true'
+      env:
+        # Usa token pessoal para autenticação
+        GITHUB_TOKEN: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}
+      run: |
+        # Configura usuário do Git
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        # Adiciona todos arquivos modificados
+        git add .
+        # Cria commit com mensagem padrão
+        git commit -m "Atualização automática dos arquivos baixados"
+        # Atualiza o branch local (tratando possíveis conflitos)
+        git pull origin main --no-rebase || true
+        # Faz push das alterações usando autenticação por token
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git main
+
+    # 9. Exibe lista dos arquivos resultantes (para debugging)
+    - name: Exibir arquivos finais
+      run: ls -la
+
+    # 10. Notificação de sucesso (apenas para logs)
+    - name: Notificar sucesso
+      # Executa apenas se todos passos anteriores foram bem sucedidos
+      if: success()
+      run: echo "Workflow executado com sucesso!"
+
+    # 11. Notificação de falha (apenas para logs)
+    - name: Notificar falha
+      # Executa apenas se algum passo anterior falhou
+      if: failure()
+      run: echo "Workflow falhou!"
