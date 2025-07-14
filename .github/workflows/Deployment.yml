@@ -1,4 +1,4 @@
-name: X-Deploy Jekyll with GitHub Pages
+name: Deployment Jekyll with GitHub Pages
 
 on:
   push:
