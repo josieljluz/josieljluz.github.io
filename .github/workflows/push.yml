@@ -1,0 +1,153 @@
+name: Deployment Jekyll with GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - '**/*'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */2 * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Configuração de concorrência revisada para evitar conflitos
+concurrency:
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: false  # Alterado para false para evitar cancelamentos indesejados
+
+jobs:
+  setup:
+    timeout-minutes: 30  # Timeout aumentado
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository (completo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Baixa todo o histórico
+          ref: main  # Especifica o branch explicitamente
+          path: main-repo  # Define um path específico
+          persist-credentials: false  # Evita conflitos de autenticação
+
+      - name: Setup Node.js (sem cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # Removido o cache para evitar problemas com package-lock.json
+
+      - name: Verificar e criar package.json se necessário
+        run: |
+          cd main-repo
+          if [ ! -f "package.json" ]; then
+            echo "Criando package.json básico..."
+            echo '{
+              "name": "temp-site",
+              "version": "1.0.0",
+              "scripts": {
+                "start": "echo 'No script defined' && exit 0"
+              }
+            }' > package.json
+          fi
+
+      - name: Instalar dependências
+        run: |
+          cd main-repo
+          npm install --no-package-lock  # Instala sem criar package-lock.json
+          npm install  # Instala normalmente
+
+      - name: Generate files metadata
+        run: |
+          cd main-repo
+          npm start
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}
+
+      - name: Commit metadata changes
+        run: |
+          cd main-repo
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add files_metadata.json
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração para comitar"
+          else
+            git commit -m "Automatic metadata update [skip ci]" || echo "Commit falhou - continuando..."
+            git pull --rebase origin main || echo "Rebase falhou - continuando..."
+            git push origin main || echo "Push falhou - continuando..."
+          fi
+        continue-on-error: true
+
+  build:
+    needs: setup
+    timeout-minutes: 45  # Timeout aumentado
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository (completo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: main-repo
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./main-repo  # Ajustado para o path correto
+          destination: ./_site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './_site'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Verificar deploys ativos (com timeout extendido)
+        id: check-deploy
+        timeout-minutes: 15  # Timeout específico para este passo
+        run: |
+          echo "Verificando deploys ativos com timeout extendido..."
+          
+          for i in {1..90}; do  # Aumentado para 90 tentativas (15 minutos)
+            RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/${{ github.repository }}/pages")
+            
+            DEPLOY_STATUS=$(echo "$RESPONSE" | jq -r '.status')
+            
+            if [[ "$DEPLOY_STATUS" == "built" || "$DEPLOY_STATUS" == "null" ]]; then
+              echo "Nenhum deploy ativo encontrado. Prosseguindo..."
+              echo "ready=true" >> $GITHUB_OUTPUT
+              break
+            else
+              echo "Deploy em andamento encontrado (status: $DEPLOY_STATUS). Tentativa $i/90..."
+              if [ $i -eq 90 ]; then
+                echo "Timeout atingido após 15 minutos."
+                exit 0  # Sai com sucesso para não falhar o workflow
+              fi
+              sleep 10
+            fi
+          done
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        timeout-minutes: 30  # Timeout específico para deploy
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
