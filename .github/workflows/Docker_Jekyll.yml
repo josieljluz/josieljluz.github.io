@@ -1,0 +1,163 @@
+name: Deploy_Jekyll_with_Docker
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - '**/*'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */2 * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+          path: main-repo
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Verify or create package.json
+        run: |
+          cd main-repo
+          if [ ! -f "package.json" ]; then
+            echo "Creating basic package.json..."
+            echo '{
+              "name": "temp-site",
+              "version": "1.0.0",
+              "scripts": {
+                "start": "echo 'No script defined' && exit 0"
+              }
+            }' > package.json
+          fi
+
+      - name: Install dependencies
+        run: |
+          cd main-repo
+          npm install --no-package-lock
+          npm install
+
+      - name: Generate files metadata
+        run: |
+          cd main-repo
+          npm start
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}
+
+      - name: Commit metadata changes
+        run: |
+          cd main-repo
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add files_metadata.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Automatic metadata update [skip ci]" || echo "Commit failed - continuing..."
+            git pull --rebase origin main || echo "Rebase failed - continuing..."
+            git push origin main || echo "Push failed - continuing..."
+          fi
+        continue-on-error: true
+
+  build:
+    needs: setup
+    timeout-minutes: 45
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: main-repo
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub (if needed)
+        if: false # Desativado por padrão, ative se precisar de imagens privadas
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build Jekyll site with Docker
+        run: |
+          cd main-repo
+          # Usa a imagem oficial do Jekyll
+          docker run --rm \
+            -v "$PWD:/srv/jekyll" \
+            -v "$PWD/vendor/bundle:/usr/local/bundle" \
+            -e JEKYLL_ENV=production \
+            jekyll/jekyll:4.2.0 \
+            jekyll build --destination ./_site
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './main-repo/_site'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check active deployments
+        id: check-deploy
+        timeout-minutes: 15
+        run: |
+          echo "Checking active deployments with extended timeout..."
+          
+          for i in {1..90}; do
+            RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/${{ github.repository }}/pages")
+            
+            DEPLOY_STATUS=$(echo "$RESPONSE" | jq -r '.status')
+            
+            if [[ "$DEPLOY_STATUS" == "built" || "$DEPLOY_STATUS" == "null" ]]; then
+              echo "No active deployment found. Proceeding..."
+              echo "ready=true" >> $GITHUB_OUTPUT
+              break
+            else
+              echo "Active deployment found (status: $DEPLOY_STATUS). Attempt $i/90..."
+              if [ $i -eq 90 ]; then
+                echo "Timeout reached after 15 minutes."
+                exit 0
+              fi
+              sleep 10
+            fi
+          done
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        timeout-minutes: 30
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+		  
+		  
+		  
