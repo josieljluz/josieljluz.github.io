@@ -1,6 +1,6 @@
 #.github/workflows/deploy.yml
 # Nome do workflow
-name: Deploy Jekyll with GitHub Pages
+name: Deployment Jekyll with GitHub Pages
 
 # Quando o workflow será executado:
 on:
