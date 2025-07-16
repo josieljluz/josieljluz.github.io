@@ -49,4 +49,14 @@ https://live-as-04-14.video.globo.com/j/eyJhbGciOiJSUzUxMiIsImtpZCI6IjEiLCJ0eXAi
 #EXTINF:-1 tvg-id="TVCidadeVerde(Portuguese).br" tvg-name="TV CIDADE VERDE" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",TV CIDADE VERDE
 https://televisaocidadeverde.brasilstream.com.br/hls/televisaocidadeverde/index.m3u8
 
-# Atualizado em 16:07:2025 - 12:29:39 UTC
+#EXTINF:-1 tvg-id="PREMIERE2(Portuguese).br" tvg-name="PREMIERE 2" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",PREMIERE 2
+https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/2ov0r1.m3u8?s=jYudrwDXtkabjB4oLHMGhg&e=1752729564
+
+#EXTINF:-1 tvg-id="PREMIERE2(Portuguese).br" tvg-name="PREMIERE 2" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",PRIMEVIDEO
+https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/m13ol1jmh9jli4.m3u8?s=8znpzIGzCr_R5_yirz2e0w&e=1752729846
+
+#EXTINF:-1 tvg-id="PremiereClubes(Portuguese).br" tvg-name="Premiere Clubes" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",Premiere Clubes
+https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/mxpjkbo9xahma.m3u8?s=dmZRIc0U3iiZTi_qnElQIw&e=1752729970
+
+
+# Atualizado em 16:07:2025 - 23:29:54 UTC
