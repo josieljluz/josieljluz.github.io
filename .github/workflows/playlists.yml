@@ -71,7 +71,7 @@ jobs:
         # Encontra todos arquivos .m3u e .xml.gz no diretório raiz
         for file in $(find . -maxdepth 1 -type f -name "*.m3u" -o -name "*.xml.gz"); do
           # Adiciona linha de comentário com data/hora da atualização
-          echo "# Atualizado em $(date -u '+%d:%m:%Y - %H:%M:%S UTC')" >> "$file"
+#          echo "# Atualizado em $(date -u '+%d:%m:%Y - %H:%M:%S UTC')" >> "$file"
           echo "# Atualizado em $(TZ='America/Fortaleza' date '+%d/%m/%Y - %H:%M:%S') BRT" >> "$file"
         done
 
@@ -123,4 +123,3 @@ jobs:
       # Executa apenas se algum passo anterior falhou
       if: failure()
       run: echo "Workflow falhou!"
-      
