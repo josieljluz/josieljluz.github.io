@@ -123,3 +123,4 @@ jobs:
       # Executa apenas se algum passo anterior falhou
       if: failure()
       run: echo "Workflow falhou!"
+
