@@ -13,7 +13,7 @@ trabalhos:
     - nome: Baixar repositório
       usa: actions/checkout@v4
       com:
-        token: ${{ secrets.MY_DOWNLOAD_GITHUB_TOKEN }}  # Adiciona autenticação para checkout
+        token: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}  # Adiciona autenticação para checkout
 
     - nome: Configurar Python
       usa: actions/setup-python@v4
@@ -62,7 +62,7 @@ trabalhos:
         git adicionar playlists/
         git confirmar -m "Atualização automática das playlists em $(data '+%d/%m/%Y %H:%M')"
         git puxar --rebase origem principal
-        git enviar https://x-access-token:${{ secrets.MY_DOWNLOAD_GITHUB_TOKEN }}@github.com/josieljluz/josieljluz.github.io.git principal
+        git enviar https://x-access-token:${{ secrets.MY_PAGES_GITHUB_TOKEN }}@github.com/josieljluz/josieljluz.github.io.git principal
 
     - nome: Notificar sucesso
       se: sucesso()
