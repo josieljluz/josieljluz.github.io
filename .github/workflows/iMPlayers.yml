@@ -12,19 +12,14 @@ jobs:
     steps:
     - name: Checkout repositório
       uses: actions/checkout@v4
+      with:
+        repository: josieljluz/josieljluz.github.io
+        token: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}
 
     - name: Configurar Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.8'
-
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
 
     - name: Instalar dependências
       run: |
@@ -38,39 +33,39 @@ jobs:
       run: |
         for file in iMPlayer/*; do
           if [ -f "$file" ]; then
-            echo "# Atualizado em $(date)" >> "$file"
+            echo "# Atualizado em $(date +'%Y-%m-%d %H:%M:%S %Z')" >> "$file"
           fi
         done
 
     - name: Confirmar arquivos baixados
       run: ls -la iMPlayer
 
-    - name: Verificar mudanças no Git
-      id: git_status
+    - name: Configurar Git
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add -A
+
+    - name: Verificar mudanças
+      id: git-check
+      run: |
+        git add iMPlayer/
         if git diff-index --quiet HEAD --; then
           echo "changes=false" >> $GITHUB_ENV
         else
           echo "changes=true" >> $GITHUB_ENV
-          git commit -m "Atualização automática dos arquivos baixados" || echo "Nenhuma mudança para commitar"
+          git commit -m "Atualização automática dos arquivos iMPlayer [skip ci]"
         fi
 
-    - name: Push das mudanças (se houver)
+    - name: Push das mudanças
       if: env.changes == 'true'
       run: |
-        git pull --rebase origin main
-        git push https://x-access-token:${{ secrets.PLAYLISTS_GITHUB_TOKEN }}@github.com/josieljluz/josieljluz.github.io.git main
+        git pull --rebase
+        git push origin main
 
     - name: Notificar sucesso
       if: success()
-      run: |
-        echo "Workflow executado com sucesso!"
+      run: echo "Workflow executado com sucesso em $(date)"
 
     - name: Notificar falha
       if: failure()
-      run: |
-        echo "Workflow falhou!"
-        exit 1
+      run: echo "Workflow falhou em $(date)" && exit 1
