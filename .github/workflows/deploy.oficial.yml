@@ -1,0 +1,163 @@
+# Nome do workflow que aparecerá na interface do GitHub Actions
+name: Publicação Automática do Site Jekyll
+
+# Define quando o workflow será executado
+on:
+  push:
+    # Executa apenas quando há push para o branch principal
+    branches: ["main"]
+    # Ignora arquivos que não afetam o build
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.github/workflows/*.yml'
+  # Permite execução manual pelo usuário
+  workflow_dispatch:
+  # Agenda execução automática a cada 2 dias
+  schedule:
+    - cron: '0 0 */2 * *'
+
+# Configura as permissões necessárias
+permissions:
+  contents: write  # Permite escrever no repositório
+  pages: write     # Permite publicar no GitHub Pages
+  id-token: write  # Permite autenticação com JWT
+
+# Configuração para evitar execuções paralelas desnecessárias
+concurrency:
+  group: "pages"   # Agrupa todas as execuções relacionadas
+  cancel-in-progress: true  # Cancela execuções anteriores
+
+# Define as tarefas do workflow
+jobs:
+  # Tarefa 1: Preparação e geração de metadados
+  preparacao:
+    runs-on: ubuntu-latest  # Executa no Ubuntu
+    outputs:  # Define saídas para outras tarefas
+      metadados_atualizados: ${{ steps.verificar_metadados.outputs.alterados }}
+    
+    steps:
+      # Passo 1: Baixar o código do repositório
+      - name: Baixar código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Baixa todo o histórico
+          persist-credentials: false  # Mais seguro
+
+      # Passo 2: Configurar Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Versão LTS estável
+          cache: 'npm'       # Habilita cache
+
+      # Passo 3: Instalar dependências
+      - name: Instalar dependências
+        run: npm ci --prefer-offline  # Instalação limpa e rápida
+
+      # Passo 4: Gerar metadados
+      - name: Gerar metadados
+        id: gerar_metadados
+        run: npm start
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token padrão
+
+      # Passo 5: Verificar alterações nos metadados
+      - name: Verificar metadados
+        id: verificar_metadados
+        run: |
+          if git diff --exit-code --quiet files_metadata.json; then
+            echo "alterados=false" >> $GITHUB_OUTPUT
+          else
+            echo "alterados=true" >> $GITHUB_OUTPUT
+          fi
+
+      # Passo 6: Salvar alterações se necessário
+      - name: Salvar metadados
+        if: steps.verificar_metadados.outputs.alterados == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add files_metadata.json
+          git commit -m "Atualização automática de metadados [skip ci]"
+          git push
+
+  # Tarefa 2: Construção do site
+  construcao:
+    needs: preparacao  # Depende da tarefa de preparação
+    runs-on: ubuntu-latest
+    # Executa apenas se os metadados mudaram ou não foi trigger por push
+    if: needs.preparacao.outputs.metadados_atualizados != 'false' || github.event_name != 'push'
+    
+    steps:
+      # Passo 1: Baixar código atualizado
+      - name: Baixar código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Otimização de performance
+
+      # Passo 2: Cache para gems do Ruby
+      - name: Cache de dependências Ruby
+        uses: actions/cache@v4
+        id: cache-gems
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      # Passo 3: Configurar Ruby
+      - name: Configurar Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'  # Versão compatível com Jekyll
+          bundler-cache: true  # Habilita cache
+          cache-version: 1     # Versão do cache
+
+      # Passo 4: Preparar ambiente GitHub Pages
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # Passo 5: Construir site com Jekyll
+      - name: Construir site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./       # Pasta de origem
+          destination: ./_site  # Pasta de saída
+          verbose: true    # Log detalhado
+
+      # Passo 6: Validar HTML gerado
+      - name: Validar HTML
+        run: |
+          sudo apt-get install -y tidy  # Instala validador
+          find ./_site -name "*.html" -exec tidy -q -e {} \; || true
+
+      # Passo 7: Enviar artefato para deploy
+      - name: Enviar artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './_site'  # Pasta com o site gerado
+
+  # Tarefa 3: Publicação do site
+  publicacao:
+    environment:
+      name: github-pages  # Ambiente de publicação
+      url: ${{ steps.deploy.outputs.page_url }}  # URL do site
+    runs-on: ubuntu-latest
+    needs: construcao  # Depende da construção
+    
+    steps:
+      # Passo 1: Esperar estabilização
+      - name: Esperar estabilidade
+        uses: fountainhead/action-wait-for-check@v2.0.0
+        with:
+          ref: ${{ github.sha }}
+          check-name: "construcao"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
+      # Passo 2: Publicar no GitHub Pages
+      - name: Publicar site
+        id: deploy
+        uses: actions/deploy-pages@v4
+        timeout-minutes: 5  # Timeout para evitar travamentos
