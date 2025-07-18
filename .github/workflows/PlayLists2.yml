@@ -1,0 +1,69 @@
+name: PlayLists2 Updater
+
+on:
+  schedule:
+    - cron: '5 3,15 * * *'  # Executa às 00:05 e 12:05 BRT (03:05 e 15:05 UTC)
+  workflow_dispatch:  # Permite execução manual
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repositório
+      uses: actions/checkout@v4
+      with:
+        repository: josieljluz/josieljluz.github.io
+        token: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Executar script PlayLists2
+      run: python PlayLists2.py
+
+    - name: Atualizar timestamp nos arquivos
+      run: |
+        for file in PlayLists2/*; do
+          echo "# Atualizado em $(TZ='America/Fortaleza' date '+%d/%m/%Y %H:%M:%S') BRT" >> "$file"
+        done
+
+    - name: Verificar arquivos baixados
+      run: ls -la PlayLists2
+
+    - name: Configurar Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Verificar e commitar mudanças
+      id: git-check
+      run: |
+        git add PlayLists2/
+        if git diff-index --quiet HEAD --; then
+          echo "changes=false" >> $GITHUB_ENV
+        else
+          echo "changes=true" >> $GITHUB_ENV
+          git commit -m "Atualização automática das playlists [skip ci]"
+        fi
+
+    - name: Push das alterações
+      if: env.changes == 'true'
+      run: |
+        git pull --rebase
+        git push origin main
+
+    - name: Notificar sucesso
+      if: success()
+      run: echo "Workflow executado com sucesso em $(date)"
+
+    - name: Notificar falha
+      if: failure()
+      run: echo "Workflow falhou em $(date)" && exit 1
