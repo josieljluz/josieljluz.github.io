@@ -1,0 +1,76 @@
+name: iMPlayer
+
+on:
+  schedule:
+    - cron: '5 3,15 * * *'  # Executa às 00:05 e 12:05 BRT (03:05 e 15:05 UTC)
+  workflow_dispatch:  # Permite execução manual
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repositório
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Executar script de iMPlayer
+      run: python iMPlayers.py
+
+    - name: Atualizar timestamp nos arquivos baixados
+      run: |
+        for file in iMPlayer/*; do
+          if [ -f "$file" ]; then
+            echo "# Atualizado em $(date)" >> "$file"
+          fi
+        done
+
+    - name: Confirmar arquivos baixados
+      run: ls -la iMPlayer
+
+    - name: Verificar mudanças no Git
+      id: git_status
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add -A
+        if git diff-index --quiet HEAD --; then
+          echo "changes=false" >> $GITHUB_ENV
+        else
+          echo "changes=true" >> $GITHUB_ENV
+          git commit -m "Atualização automática dos arquivos baixados" || echo "Nenhuma mudança para commitar"
+        fi
+
+    - name: Push das mudanças (se houver)
+      if: env.changes == 'true'
+      run: |
+        git pull --rebase origin main
+        git push https://x-access-token:${{ secrets.MY_DOWNLOAD_GITHUB_TOKEN }}@github.com/josieljluz/josieljluz.github.io.git main
+
+    - name: Notificar sucesso
+      if: success()
+      run: |
+        echo "Workflow executado com sucesso!"
+
+    - name: Notificar falha
+      if: failure()
+      run: |
+        echo "Workflow falhou!"
+        exit 1
