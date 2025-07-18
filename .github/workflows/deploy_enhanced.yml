@@ -24,7 +24,7 @@ permissions:
 # Configuração de concorrência para evitar execuções paralelas
 concurrency:
   group: "pages-${{ github.ref }}"  # Grupo único por branch
-  cancel-in-progress: true          # Cancela execuções anteriores
+  cancel-in-progress: false#true          # Cancela execuções anteriores
 
 # Definição dos jobs
 jobs:
