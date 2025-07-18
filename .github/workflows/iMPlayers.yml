@@ -62,7 +62,7 @@ jobs:
       if: env.changes == 'true'
       run: |
         git pull --rebase origin main
-        git push https://x-access-token:${{ secrets.MY_DOWNLOAD_GITHUB_TOKEN }}@github.com/josieljluz/josieljluz.github.io.git main
+        git push https://x-access-token:${{ secrets.PLAYLISTS_GITHUB_TOKEN }}@github.com/josieljluz/josieljluz.github.io.git main
 
     - name: Notificar sucesso
       if: success()
