@@ -1,76 +1,69 @@
-nome: Atualizador TiviMate
+name: TiviMate
 
-em:
-  agenda:
+on:
+  schedule:
     - cron: '1 3,15 * * *'  # Executa às 00:01 e 12:01 BRT (03:01 e 15:01 UTC)
-  disparo_manual:  # Permite execução manual via interface do GitHub
+  workflow_dispatch:  # Permite execução manual
 
-trabalhos:
-  atualizar_playlists:
-    executa-em: ubuntu-latest
+jobs:
+  download:
+    runs-on: ubuntu-latest
 
-    passos:
-    - nome: Baixar repositório
-      usa: actions/checkout@v4
-      com:
-        token: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}  # Adiciona autenticação para checkout
+    steps:
+    - name: Checkout repositório
+      uses: actions/checkout@v4
+      with:
+        repository: josieljluz/josieljluz.github.io
+        token: ${{ secrets.MY_PAGES_GITHUB_TOKEN }}
 
-    - nome: Configurar Python
-      usa: actions/setup-python@v4
-      com:
-        versão-python: '3.8'
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
 
-    - nome: Cache de dependências pip
-      usa: actions/cache@v3
-      com:
-        caminho: ~/.cache/pip
-        chave: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        chaves-de-restauração: |
-          ${{ runner.os }}-pip-
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
 
-    - nome: Instalar dependências
-      executa: |
-        python -m pip instalar --upgrade pip
-        pip instalar requests
+    - name: Executar script TiviMate
+      run: python TiviMate.py
 
-    - nome: Executar script TiviMate
-      executa: python TiviMate.py
+    - name: Atualizar timestamp nos arquivos
+      run: |
+        for file in $(find TiviMate -type f); do
+          echo "# Atualizado em $(TZ='America/Fortaleza' date '+%d/%m/%Y - %H:%M:%S') BRT" >> "$file"
+        done
 
-    - nome: Adicionar data de atualização nos arquivos
-      executa: |
-        para arquivo in $(encontrar playlists -tipo f); faça
-          echo "# Atualizado em $(TZ='America/Fortaleza' data '+%d/%m/%Y - %H:%M:%S') BRT" >> "$arquivo"
-        feito
+    - name: Verificar conteúdo da pasta
+      run: ls -la TiviMate
 
-    - nome: Verificar arquivos baixados
-      executa: ls -la playlists
+    - name: Configurar Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    - nome: Verificar mudanças no Git
-      id: status_git
-      executa: |
-        se [[ -n "$(git status --porcelain)" ]]; então
-          echo "mudanças=verdadeiro" >> $GITHUB_ENV
-        senão
-          echo "mudanças=falso" >> $GITHUB_ENV
+    - name: Verificar e commitar mudanças
+      id: git-check
+      run: |
+        git add TiviMate/
+        if git diff-index --quiet HEAD --; then
+          echo "changes=false" >> $GITHUB_ENV
+        else
+          echo "changes=true" >> $GITHUB_ENV
+          git commit -m "Atualização automática das playlists TiviMate [skip ci]"
         fi
 
-    - nome: Confirmar e enviar alterações (se houver mudanças)
-      se: env.mudanças == 'verdadeiro'
-      executa: |
-        git config --global user.name "bot-github-actions"
-        git config --global user.email "bot-github-actions@users.noreply.github.com"
-        git adicionar playlists/
-        git confirmar -m "Atualização automática das playlists em $(data '+%d/%m/%Y %H:%M')"
-        git puxar --rebase origem principal
-        git enviar https://x-access-token:${{ secrets.MY_PAGES_GITHUB_TOKEN }}@github.com/josieljluz/josieljluz.github.io.git principal
+    - name: Push das alterações
+      if: env.changes == 'true'
+      run: |
+        git pull --rebase
+        git push origin main
 
-    - nome: Notificar sucesso
-      se: sucesso()
-      executa: |
-        echo "Playlists atualizadas com sucesso!"
+    - name: Notificar sucesso
+      if: success()
+      run: echo "Workflow TiviMate concluído com sucesso em $(date)"
 
-    - nome: Notificar falha
-      se: falha()
-      executa: |
-        echo "Falha ao atualizar playlists!"
-        echo "Erro: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+    - name: Notificar falha
+      if: failure()
+      run: echo "Workflow TiviMate falhou em $(date)" && exit 1
