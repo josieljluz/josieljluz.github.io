@@ -1,5 +1,8 @@
 #EXTM3U url-tvg="https://m3u4u.com/epg/jq2zy9epr3bwxmgwyxr5, https://m3u4u.com/epg/3wk1y24kx7uzdevxygz7, https://m3u4u.com/epg/782dyqdrqkh1xegen4zp, https://www.open-epg.com/files/brazil1.xml.gz, https://www.open-epg.com/files/brazil2.xml.gz, https://www.open-epg.com/files/brazil3.xml.gz, https://www.open-epg.com/files/brazil4.xml.gz, https://www.open-epg.com/files/portugal1.xml.gz, https://www.open-epg.com/files/portugal2.xml.gz, https://epgshare01.online/epgshare01/epg_ripper_BR1.xml.gz, https://epgshare01.online/epgshare01/epg_ripper_PT1.xml.gz"
 
+#PLAYLISTV: pltv-logo="https://cdn-icons-png.flaticon.com/256/25/25231.png" pltv-name="☆Josiel Jefferson☆" pltv-description="Playlist GitLab And GitHub Pages" pltv-cover="https://images.icon-icons.com/2407/PNG/512/gitlab_icon_146171.png" pltv-author="☆Josiel Jefferson☆" pltv-site="https://josieljefferson12.github.io/josieljefferson12.github.io.oficial" pltv-email="josielluz@proton.me"
+
+
 #EXTGRP:PIAUÍ TV
 #EXTINF:-1 tvg-id="TVAntena10(Portuguese).br" tvg-name="ANTENA 10 HD" tvg-logo="https://i.imgur.com/BqzBsdm.png" group-title="PIAUÍ TV",ANTENA 10 HD
 https://video01.logicahost.com.br/a10maisadap/smil:transcoder.smil/chunklist_w2123538353_b1396000.m3u8
@@ -57,6 +60,4 @@ https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/m13ol1jmh9jli4.m3u8?s=8znpz
 
 #EXTINF:-1 tvg-id="PremiereClubes(Portuguese).br" tvg-name="Premiere Clubes" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",Premiere Clubes
 https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/mxpjkbo9xahma.m3u8?s=dmZRIc0U3iiZTi_qnElQIw&e=1752729970
-
-
-# Atualizado em 24/07/2025 - 09:59:33 BRT
+# Atualizado em 24/07/2025 - 23:23:24 BRT
