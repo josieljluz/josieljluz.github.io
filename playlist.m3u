@@ -31,13 +31,13 @@ https://stmv1.transmissaodigital.com/cidadeverdenovo/cidadeverdenovo/chunklist_w
 #EXTINF:-1 tvg-id="TVAntena10(Portuguese).br" tvg-name="TV GALLO" tvg-logo="https://i.imgur.com/Go7equc.png" group-title="PIAUÍ TV",TV GALLO
 https://5c483b9d1019c.streamlock.net/8202/8202/chunklist_w974707802.m3u8
 
-#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="Rádio Canção Nova 96.3Mhz - Cachoeira Paulista" tvg-logo="https://d2i9ujkx0lgi9s.cloudfront.net/account1-i1/embed/1818/thumb_17627_thumbnail__836x1280px__radio_cancao_nova_-_cachoeira_paulista_96.3-poster-1696430015.png" group-title="PIAUÍ TV",Rádio Canção Nova 96.3Mhz - Cachoeira Paulista
+#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="RÁDIO CANÇÃO NOVA 96.3MHZ - CACHOEIRA PAULISTA" tvg-logo="https://d2i9ujkx0lgi9s.cloudfront.net/account1-i1/embed/1818/thumb_17627_thumbnail__836x1280px__radio_cancao_nova_-_cachoeira_paulista_96.3-poster-1696430015.png" group-title="PIAUÍ TV",RÁDIO CANÇÃO NOVA 96.3MHZ - CACHOEIRA PAULISTA
 https://streaming.fox.srv.br/stream/8104
 
-#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="Rádio Canção Nova - Cachoeira Paulista 89.1" tvg-logo="https://d2i9ujkx0lgi9s.cloudfront.net/account1-i1/embed/860/thumb_17627_thumbnail__836x1280px__radio_cancao_nova_-_cachoeira_paulista_89.1-poster-1696429235.png" group-title="PIAUÍ TV",Rádio Canção Nova - Cachoeira Paulista 89.1
+#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1" tvg-logo="https://d2i9ujkx0lgi9s.cloudfront.net/account1-i1/embed/860/thumb_17627_thumbnail__836x1280px__radio_cancao_nova_-_cachoeira_paulista_89.1-poster-1696429235.png" group-title="PIAUÍ TV",RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1
 https://streaming.fox.srv.br/stream/8074
 
-#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="Rádio Canção Nova - Cachoeira Paulista 89.1" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKz_ESX35P5Irwj18dscgpIpt1-R9NmOUYjpTaAiyY6YpnystW6ceOzcQ&s=10" group-title="PIAUÍ TV",Rádio Canção Nova - Cachoeira Paulista 89.1
+#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKz_ESX35P5Irwj18dscgpIpt1-R9NmOUYjpTaAiyY6YpnystW6ceOzcQ&s=10" group-title="PIAUÍ TV",RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1
 https://5c65286fc6ace.streamlock.net/cancaonova/radiocnova_720p/chunklist_w1982794369.m3u8
 
 #EXTINF:-1 tvg-id="Cultura(Portuguese).br" tvg-name="TV CULTURA" tvg-logo="https://lo1.in/BR/cultr.png" group-title="PIAUÍ TV",TV CULTURA
@@ -58,6 +58,7 @@ https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/2ov0r1.m3u8?s=jYudrwDXtkabj
 #EXTINF:-1 tvg-id="PREMIERE2(Portuguese).br" tvg-name="PREMIERE 2" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",PRIMEVIDEO
 https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/m13ol1jmh9jli4.m3u8?s=8znpzIGzCr_R5_yirz2e0w&e=1752729846
 
-#EXTINF:-1 tvg-id="PremiereClubes(Portuguese).br" tvg-name="Premiere Clubes" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",Premiere Clubes
+#EXTINF:-1 tvg-id="PremiereClubes(Portuguese).br" tvg-name="PREMIERE CLUBES" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",PREMIERE CLUBES
 https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/mxpjkbo9xahma.m3u8?s=dmZRIc0U3iiZTi_qnElQIw&e=1752729970
-# Atualizado em 25/07/2025 - 23:19:37 BRT
+
+# Atualizado em 26/07/2025 - 09:54:15 BRT
