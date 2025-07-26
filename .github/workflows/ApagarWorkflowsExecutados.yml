@@ -1,0 +1,111 @@
+# 📝 Nome do workflow que aparecerá no GitHub Actions
+name: 🧹 Limpar Execuções de Workflow Antigas
+
+# ⏰ Quando o workflow será executado
+on:
+  # 📅 Execução agendada - uma vez por dia às 02:00 UTC
+  schedule:
+    - cron: '0 2 * * *'
+  # 🎮 Permite executar manualmente através da interface do GitHub
+  workflow_dispatch:
+
+# 🏗️ Definição dos jobs (tarefas) a serem executados
+jobs:
+  # 🧼 Nome do job de limpeza
+  cleanup:
+    # 🖥️ Ambiente de execução (máquina Ubuntu mais recente)
+    runs-on: ubuntu-latest
+    # 🔐 Permissões necessárias para o job
+    permissions:
+      # 🚀 Permissão para escrever/gerenciar actions (necessário para deletar execuções)
+      actions: write
+    
+    # 📋 Lista de passos a serem executados sequencialmente
+    steps:
+      # 🎯 Passo principal: deletar execuções de workflow antigas
+      - name: 🗑️ Deletar execuções de workflow antigas
+        # 🌐 Define variáveis de ambiente para o passo
+        env:
+          # 🔑 Token de acesso automático do GitHub (permissões já configuradas)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+        # 💻 Comandos shell a serem executados
+        run: |
+          # 📢 Mensagem inicial informando que a busca começou
+          echo "🔍 Buscando execuções de workflow antigas..."
+
+          # 📥 PASSO 1: Buscar todas as execuções de workflow do repositório
+          # 🛠️ Usando GitHub CLI (gh) para acessar API do GitHub
+          # 📡 Endpoint: /repos/{owner}/{repo}/actions/runs
+          # 📊 --jq: Filtra e formata o JSON de resposta para pegar apenas id, created_at e status
+          runs=$(gh api \
+            -H "Accept: application/vnd.github.v3+json" \
+            "/repos/${{ github.repository }}/actions/runs" \
+            --jq '.workflow_runs[] | {id, created_at, status}')
+
+          # ❓ PASSO 2: Verificar se existem execuções para processar
+          # 🧪 Se a variável 'runs' estiver vazia, não há nada para limpar
+          if [ -z "$runs" ]; then
+            # ✅ Mensagem de sucesso - nenhuma execução encontrada
+            echo "✅ Nenhuma execução de workflow encontrada."
+            # 🚪 Sai do script com sucesso
+            exit 0
+          fi
+
+          # ⏰ PASSO 3: Obter data e hora atual em formato timestamp Unix
+          # 🕐 Timestamp é número de segundos desde 1º de janeiro de 1970 (UTC)
+          now=$(date -u +%s)
+
+          # 🔄 PASSO 4: Processar cada execução de workflow encontrada
+          # 📋 Loop através de todas as execuções usando jq para processar JSON
+          # 🎯 -c: Processa cada objeto como JSON compacto
+          # 📋 select(.created_at != null): Filtra apenas execuções com data de criação válida
+          echo "$runs" | jq -c 'select(.created_at != null)' | while read -r run; do
+            # 🆔 PASSO 4.1: Extrair ID da execução de workflow
+            id=$(echo "$run" | jq -r '.id')
+            
+            # 📅 PASSO 4.2: Extrair data de criação da execução de workflow
+            created_at=$(echo "$run" | jq -r '.created_at')
+
+            # ⏳ PASSO 4.3: Converter data de criação para timestamp Unix
+            # 🐧 Compatibilidade Linux: tenta usar formato GNU date
+            if date -u -d "$created_at" >/dev/null 2>&1; then
+              run_date=$(date -u -d "$created_at" +%s)
+            # 🍎 Compatibilidade macOS: tenta usar formato BSD date
+            elif date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "$created_at" >/dev/null 2>&1; then
+              run_date=$(date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "$created_at" +%s)
+            # ❌ Se nenhum formato funcionar, pula esta execução
+            else
+              # ⚠️ Mensagem de aviso para data inválida
+              echo "⚠️ Não foi possível analisar a  $created_at"
+              # 🔁 Continua para a próxima execução
+              continue
+            fi
+
+            # 📊 PASSO 4.4: Calcular diferença de tempo em dias
+            # ⏱️ Calcular diferença em segundos entre agora e a criação da execução
+            diff_seconds=$(( now - run_date ))
+            # 📆 Converter segundos para dias (86400 segundos = 24 horas = 1 dia)
+            diff_days=$(( diff_seconds / 86400 ))
+
+            # 🧮 PASSO 4.5: Verificar se a execução tem mais de 2 dias
+            if [ "$diff_days" -ge 2 ]; then
+              # 🗑️ PASSO 4.6: Deletar a execução de workflow se tiver 2+ dias
+              echo "🗑️ Deletando execução de workflow ID: $id (Criada há $diff_days dias)"
+              
+              # 🚀 Chamada API para deletar a execução de workflow específica
+              # 📍 Endpoint: DELETE /repos/{owner}/{repo}/actions/runs/{run_id}
+              # 🤫 >/dev/null 2>&1: Suprime output normal e erros para manter log limpo
+              gh api \
+                --method DELETE \
+                -H "Accept: application/vnd.github.v3+json" \
+                "/repos/${{ github.repository }}/actions/runs/$id" \
+                >/dev/null 2>&1 || echo "⚠️ Falha ao deletar execução ID: $id"
+            else
+              # ✅ PASSO 4.7: Manter a execução de workflow se tiver menos de 2 dias
+              echo "✅ Execução de workflow ID: $id ainda não tem 2 dias (Criada há $diff_days dias)"
+            fi
+          done
+          
+          # 🎉 PASSO 5: Finalização
+          echo "🏁 Processo de limpeza concluído!"
