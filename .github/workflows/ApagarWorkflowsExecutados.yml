@@ -5,7 +5,7 @@ name: 🧹 Limpar Execuções de Workflow Antigas
 on:
   # 📅 Execução agendada - uma vez por dia às 02:00 UTC
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '1 0 1-31/2 * *'
   # 🎮 Permite executar manualmente através da interface do GitHub
   workflow_dispatch:
 
