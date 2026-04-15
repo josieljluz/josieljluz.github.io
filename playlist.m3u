@@ -1,0 +1,64 @@
+#EXTM3U url-tvg="https://m3u4u.com/epg/jq2zy9epr3bwxmgwyxr5, https://m3u4u.com/epg/3wk1y24kx7uzdevxygz7, https://m3u4u.com/epg/782dyqdrqkh1xegen4zp, https://www.open-epg.com/files/brazil1.xml.gz, https://www.open-epg.com/files/brazil2.xml.gz, https://www.open-epg.com/files/brazil3.xml.gz, https://www.open-epg.com/files/brazil4.xml.gz, https://www.open-epg.com/files/portugal1.xml.gz, https://www.open-epg.com/files/portugal2.xml.gz, https://epgshare01.online/epgshare01/epg_ripper_BR1.xml.gz, https://epgshare01.online/epgshare01/epg_ripper_PT1.xml.gz"
+
+#PLAYLISTV: pltv-logo="https://cdn-icons-png.flaticon.com/256/25/25231.png" pltv-name="☆Josiel Jefferson☆" pltv-description="Playlist GitLab And GitHub Pages" pltv-cover="https://images.icon-icons.com/2407/PNG/512/gitlab_icon_146171.png" pltv-author="☆Josiel Jefferson☆" pltv-site="https://josieljefferson12.github.io/josieljefferson12.github.io.oficial" pltv-email="josielluz@proton.me"
+
+
+#EXTGRP:PIAUÍ TV
+#EXTINF:-1 tvg-id="TVAntena10(Portuguese).br" tvg-name="ANTENA 10 HD" tvg-logo="https://i.imgur.com/BqzBsdm.png" group-title="PIAUÍ TV",ANTENA 10 HD
+https://video01.logicahost.com.br/a10maisadap/smil:transcoder.smil/chunklist_w2123538353_b1396000.m3u8
+
+#EXTINF:-1 tvg-id="RedeTV(Portuguese).br" tvg-name="O DIA TV" tvg-logo="https://i.imgur.com/xbPIEDD.png" group-title="PIAUÍ TV",O DIA TV
+https://59e4b6c1beddc.streamlock.net/tvodia/tvodia/chunklist_w1921501568.m3u8
+
+#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="TV CANÇÃO NOVA" tvg-logo="https://upload.wikimedia.org/wikipedia/pt/3/3f/Logotipo_da_TV_Can%C3%A7%C3%A3o_Nova.png" group-title="PIAUÍ TV",TV CANÇÃO NOVA
+https://www.youtube.com/user/tvcancaonova/live
+
+#EXTINF:-1 tvg-id="CancaoNova(src01).pt" tvg-name="TV CANÇÃO NOVA PT" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNSVzyD-TnBiJSUeVfuMz4Qn5eMtxDKuluBLeddUP290Xe7WOdrtC2q_XZ&s=10" group-title="PIAUÍ TV",TV CANÇÃO NOVA PT
+https://5c65286fc6ace.streamlock.net/cancaonova/CancaoNova.stream_720p/chunklist_w785649869.m3u8
+
+#EXTINF:-1 tvg-id="SBT(Portuguese).br" tvg-name="TV CIDADE VERDE PICOS" tvg-logo="https://i.imgur.com/rkGbMJL.png" group-title="PIAUÍ TV",TV CIDADE VERDE PICOS
+https://stmv1.transmissaodigital.com/tvcidadeverde/tvcidadeverde/chunklist_w1496024979.m3u8
+
+#EXTINF:-1 tvg-id="SBT(Portuguese).br" tvg-name="TV CIDADE VERDE PICOS FHD" tvg-logo="https://i.imgur.com/rkGbMJL.png" group-title="PIAUÍ TV",TV CIDADE VERDE PICOS FHD
+https://stmv1.transmissaodigital.com/tvcidadeverde/tvcidadeverde/chunklist_w685970594.m3u8
+
+#EXTINF:-1 tvg-id="SBT(Portuguese).br" tvg-name="TV CIDADE VERDE TERESINA" tvg-logo="https://i.imgur.com/rkGbMJL.png" group-title="PIAUÍ TV",TV CIDADE VERDE TERESINA
+https://stmv1.transmissaodigital.com/cidadeverdenovo/cidadeverdenovo/chunklist_w1115557601.m3u8
+
+#EXTINF:-1 tvg-id="SBT(Portuguese).br" tvg-name="TV CIDADE VERDE TERESINA HD" tvg-logo="https://i.imgur.com/rkGbMJL.png" group-title="PIAUÍ TV",TV CIDADE VERDE TERESINA HD
+https://stmv1.transmissaodigital.com/cidadeverdenovo/cidadeverdenovo/chunklist_w1094170448.m3u8
+
+#EXTINF:-1 tvg-id="TVAntena10(Portuguese).br" tvg-name="TV GALLO" tvg-logo="https://i.imgur.com/Go7equc.png" group-title="PIAUÍ TV",TV GALLO
+https://5c483b9d1019c.streamlock.net/8202/8202/chunklist_w974707802.m3u8
+
+#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="RÁDIO CANÇÃO NOVA 96.3MHZ - CACHOEIRA PAULISTA" tvg-logo="https://d2i9ujkx0lgi9s.cloudfront.net/account1-i1/embed/1818/thumb_17627_thumbnail__836x1280px__radio_cancao_nova_-_cachoeira_paulista_96.3-poster-1696430015.png" group-title="PIAUÍ TV",RÁDIO CANÇÃO NOVA 96.3MHZ - CACHOEIRA PAULISTA
+https://streaming.fox.srv.br/stream/8104
+
+#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1" tvg-logo="https://d2i9ujkx0lgi9s.cloudfront.net/account1-i1/embed/860/thumb_17627_thumbnail__836x1280px__radio_cancao_nova_-_cachoeira_paulista_89.1-poster-1696429235.png" group-title="PIAUÍ TV",RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1
+https://streaming.fox.srv.br/stream/8074
+
+#EXTINF:-1 tvg-id="CancaoNova(Portuguese).br" tvg-name="RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKz_ESX35P5Irwj18dscgpIpt1-R9NmOUYjpTaAiyY6YpnystW6ceOzcQ&s=10" group-title="PIAUÍ TV",RÁDIO CANÇÃO NOVA - CACHOEIRA PAULISTA 89.1
+https://5c65286fc6ace.streamlock.net/cancaonova/radiocnova_720p/chunklist_w1982794369.m3u8
+
+#EXTINF:-1 tvg-id="Cultura(Portuguese).br" tvg-name="TV CULTURA" tvg-logo="https://lo1.in/BR/cultr.png" group-title="PIAUÍ TV",TV CULTURA
+https://player-tvcultura.stream.uol.com.br/live/tvcultura_lsd.m3u8
+
+#EXTINF:-1 tvg-id="TVClube(Portuguese).br" tvg-name="TV CLUBE" tvg-logo="https://upload.wikimedia.org/wikipedia/pt/9/92/Logotipo_da_TV_Clube_%28Teresina%29.png" group-title="PIAUÍ TV",TV CLUBE
+https://live-ancdn-07.video.globo.com/j/eyJhbGciOiJSUzUxMiIsImtpZCI6IjEiLCJ0eXAiOiJKV1QifQ.eyJjb3VudHJ5X2NvZGUiOiJCUiIsImRvbWFpbiI6ImxpdmUtYW5jZG4tMDcudmlkZW8uZ2xvYm8uY29tIiwiZXhwIjoxNzUyNDA1NjQwLCJpYXQiOjE3NTIzMTkyNDAsImlzcyI6InBsYXliYWNrLWFwaS1wcm9kLWdjcCIsIm93bmVyIjoiNTU4OGYwNjItOGI1My00ZTNhLTg5ZDctNDYxMzA1NjdiMzg5IiwicGF0aCI6Ii9saXZlL2YoYk1heD0yMjYyOTc2LGk9MikvZ2xvYm8tdGVyL3BsYXlsaXN0Lm0zdTgifQ.o78zadTm0UwQbsV_yq-4fW9-WgIxy4GPSv3LoI6nZ4o8lUhi6EBEG255DNTxxqU0TXQSkZFex8kSfnSMgIQkGYEV4dbNiMuZNKQ2JrbzwWQ3Nk2t9gSszSIj44zQI1qZYralgl9QZTYVS-9rBSOYO8hIAfLoIuBMDYTnUk8ISOo_71KleurrnhjNkL-okrYEkTa6_SXa0MdKZ0EmN84zYCQCZrndv16M6NqRGH_yB9bpDKncfqNg-MW5RM-IwclyzNTB3o3DEhErFqAYHu74fnj3M1ppJP1EswA5z5YApX1uP6lQxDI9K_OnH9JIapsSXeNR7nr97JulpVpos0pZEQ/live/f(bMax=2262976,i=2)/globo-ter/globo-ter-audio_1=96000-video=2262976.m3u8
+
+#EXTINF:-1 tvg-id="Globo(Portuguese).br" tvg-name="GLOBO" tvg-logo="https://upload.wikimedia.org/wikipedia/pt/9/92/Logotipo_da_TV_Clube_%28Teresina%29.png" group-title="PIAUÍ TV",GLOBO
+https://live-as-04-14.video.globo.com/j/eyJhbGciOiJSUzUxMiIsImtpZCI6IjEiLCJ0eXAiOiJKV1QifQ.eyJjb3VudHJ5X2NvZGUiOiJCUiIsImRvbWFpbiI6ImxpdmUtYXMtMDQtMTQudmlkZW8uZ2xvYm8uY29tIiwiZXhwIjoxNzUyNDA1OTA4LCJpYXQiOjE3NTIzMTk1MDgsImlzcyI6InBsYXliYWNrLWFwaS1wcm9kLWdjcCIsIm93bmVyIjoiNTU4OGYwNjItOGI1My00ZTNhLTg5ZDctNDYxMzA1NjdiMzg5IiwicGF0aCI6Ii9saXZlL2YoYT1hdWRpb18xLGJNYXg9MjI2Mjk3NixobHM9MyxpPTIsdj12aWRlbykvZ2xvYm8tdGVyL3BsYXlsaXN0Lm0zdTgifQ.cqv_Q-5S0Pe4kIGR-qwGqwW00NxJ0EdBhWpLVOezc9ajbX3zSRp8GQDH5Bvvzbmr4agzpgVICm7HgKshibhSX3R6EgZ0INFIIiXtIq9Z8fVSv-5FdkBiOok4SdR800TN4fYbubzmtDmOlCueuQ5qNkaJlYGmaxdV9czzHHEpEQi9gQXlo3pd7aTg3EBb4Gk6hSfN8SVTFm9GWYVdHyQRJ2wbRXcMyxsix9-MVo4hwx76akhNJ_OV4wPb-HD0Ek0L7ckxaolwBfg5B-aSojD2dK3MfhJ7UKIPNp577u1M0z1c7_qRiBGUh347Hiuv4wOLFwxKls7a2NN5IKr3dmGT3w/live/f(a=audio_1,bMax=2262976,hls=3,i=2,v=video)/globo-ter/globo-ter-audio_1=96000-video=2262976.m3u8?hls_client_manifest_version=3
+
+#EXTINF:-1 tvg-id="TVCidadeVerde(Portuguese).br" tvg-name="TV CIDADE VERDE" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",TV CIDADE VERDE
+https://televisaocidadeverde.brasilstream.com.br/hls/televisaocidadeverde/index.m3u8
+
+#EXTINF:-1 tvg-id="PREMIERE2(Portuguese).br" tvg-name="PREMIERE 2" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",PREMIERE 2
+https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/2ov0r1.m3u8?s=jYudrwDXtkabjB4oLHMGhg&e=1752729564
+
+#EXTINF:-1 tvg-id="PREMIERE2(Portuguese).br" tvg-name="PREMIERE 2" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",PRIMEVIDEO
+https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/m13ol1jmh9jli4.m3u8?s=8znpzIGzCr_R5_yirz2e0w&e=1752729846
+
+#EXTINF:-1 tvg-id="PremiereClubes(Portuguese).br" tvg-name="PREMIERE CLUBES" tvg-logo="https://cdn.tvcidadeverde.com.br/storage/webdisco/logos/371d174f303942df3b554b0e5985c8d4.png" group-title="PIAUÍ TV",PREMIERE CLUBES
+https://ubsrgdwjmenz65xqp3t2v9.cdnutter.net:8443/hls/mxpjkbo9xahma.m3u8?s=dmZRIc0U3iiZTi_qnElQIw&e=1752729970
+
+# Atualizado em 15/04/2026 - 00:32:08 BRT
